@@ -117,6 +117,11 @@ public class TabMyFragment extends BaseFragment {
     private SetupBGButton mTimerPowerOffSetupBGButton;
 
     /**
+     * 语音助手按钮
+     */
+    private SetupBGButton mVoiceHelperSetupBGButton;
+
+    /**
      * 退出提示窗口
      */
     private AlartTwoButtonDialog mExitAlartDialog;
@@ -536,6 +541,13 @@ public class TabMyFragment extends BaseFragment {
             }
         });
 
+        mVoiceHelperSetupBGButton = mainView.findViewById(R.id.voice_helper);
+        mVoiceHelperSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mExitAlartDialog.showDialog("是否退出应用？", "取消", "确定");
+            }
+        });
 
         showContentView();
 

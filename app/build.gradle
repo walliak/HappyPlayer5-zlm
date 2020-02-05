@@ -54,9 +54,9 @@ dependencies {
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
     /**
-     * ijkplayer
+     *  ijkplayer
      *
-     * 引用下面的so文件，不支持无损歌曲格式
+     *  引用下面的so文件，不支持无损歌曲格式
      compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.4'
      compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.4'
      compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.4'
@@ -69,31 +69,32 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.belerweb:pinyin4j:2.5.0'
     /**
-     * 右滑动关闭
+     *  右滑动关闭
      */
     implementation 'com.github.zhangliangming:SwipeBackLayout:v2.6'
     /**
-     * 旋转界面
+     *  旋转界面
      */
     implementation 'com.github.zhangliangming:RotateLayout:v2.6'
     /**
-     * 进度条
+     *  进度条
      */
     implementation 'com.github.zhangliangming:SeekBar:v3.5'
     /**
-     * 歌词
+     *  歌词
      */
     implementation 'com.github.zhangliangming:HPLyrics:v1.47'
     /**
-     * 音频
+     *  音频
      */
     implementation 'com.github.zhangliangming:HPAudio:v2.4'
     /**
-     * 注册码
+     *  注册码
      */
     implementation 'com.github.zhangliangming:Register:v1.1'
     /**
-     * ijkplayer
+     *  ijkplayer
      */
     implementation 'com.github.zhangliangming:Player:v1.1'
+    implementation files('libs/Msc.jar')
 }

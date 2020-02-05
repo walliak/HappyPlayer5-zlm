@@ -1204,33 +1204,9 @@ public class MainActivity extends BaseActivity {
         mPlayImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int playStatus = mHPApplication.getPlayStatus();
-                if (playStatus == AudioPlayerManager.PAUSE) {
 
-                    AudioInfo audioInfo = mHPApplication.getCurAudioInfo();
-                    if (audioInfo != null) {
+                mHPApplication.sendMessageToPlay();
 
-                        AudioMessage audioMessage = mHPApplication.getCurAudioMessage();
-                        Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_RESUMEMUSIC);
-                        resumeIntent.putExtra(AudioMessage.KEY, audioMessage);
-                        resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                        sendBroadcast(resumeIntent);
-
-                    }
-
-                } else {
-                    if (mHPApplication.getCurAudioMessage() != null) {
-                        AudioMessage audioMessage = mHPApplication.getCurAudioMessage();
-                        AudioInfo audioInfo = mHPApplication.getCurAudioInfo();
-                        if (audioInfo != null) {
-                            audioMessage.setAudioInfo(audioInfo);
-                            Intent playIntent = new Intent(AudioBroadcastReceiver.ACTION_PLAYMUSIC);
-                            playIntent.putExtra(AudioMessage.KEY, audioMessage);
-                            playIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                            sendBroadcast(playIntent);
-                        }
-                    }
-                }
             }
         });
         //暂停
@@ -1238,14 +1214,9 @@ public class MainActivity extends BaseActivity {
         mPauseImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int playStatus = mHPApplication.getPlayStatus();
-                if (playStatus == AudioPlayerManager.PLAYING) {
 
-                    Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_PAUSEMUSIC);
-                    resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                    sendBroadcast(resumeIntent);
+                mHPApplication.sendMessageToPause();
 
-                }
             }
         });
         //下一首
@@ -1253,10 +1224,9 @@ public class MainActivity extends BaseActivity {
         mNextImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
-                Intent nextIntent = new Intent(AudioBroadcastReceiver.ACTION_NEXTMUSIC);
-                nextIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                sendBroadcast(nextIntent);
+
+                mHPApplication.sendMessageToNext();
+
             }
         });
 

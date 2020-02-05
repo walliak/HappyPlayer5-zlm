@@ -1,7 +1,9 @@
 package com.zlm.hp.application;
 
+import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
+import com.iflytek.cloud.SpeechUtility;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.zlm.hp.constants.PreferencesConstants;
@@ -12,6 +14,8 @@ import com.zlm.hp.manager.AudioPlayerManager;
 import com.zlm.hp.model.AudioInfo;
 import com.zlm.hp.model.AudioMessage;
 import com.zlm.hp.net.entity.RankListResult;
+import com.zlm.hp.receiver.AudioBroadcastReceiver;
+import com.zlm.hp.ui.R;
 import com.zlm.hp.utils.ResourceFileUtil;
 import com.zlm.hp.utils.SerializableObjUtil;
 import com.zlm.libs.register.RegisterHelper;
@@ -182,6 +186,8 @@ public class HPApplication extends MultiDexApplication {
             return;
         }
         sRefWatcher = RefWatcher.DISABLED;
+        SpeechUtility.createUtility(HPApplication.this, "appid=" + getString(R.string.app_id));
+
     }
 
     /**
@@ -508,5 +514,64 @@ public class HPApplication extends MultiDexApplication {
 
         PreferencesUtil.saveValue(getApplicationContext(), PreferencesConstants.desktopLyricsIsMove_KEY, desktopLyricsIsMove);
 
+    }
+
+    /**
+     *发送播放信息
+     */
+    public  void sendMessageToPlay()
+    {
+        int playStatus = this.getPlayStatus();
+        if (playStatus == AudioPlayerManager.PAUSE) {
+
+            AudioInfo audioInfo = this.getCurAudioInfo();
+            if (audioInfo != null) {
+
+                AudioMessage audioMessage = this.getCurAudioMessage();
+                Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_RESUMEMUSIC);
+                resumeIntent.putExtra(AudioMessage.KEY, audioMessage);
+                resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                sendBroadcast(resumeIntent);
+
+            }
+
+        } else {
+            if (this.getCurAudioMessage() != null) {
+                AudioMessage audioMessage = this.getCurAudioMessage();
+                AudioInfo audioInfo = this.getCurAudioInfo();
+                if (audioInfo != null) {
+                    audioMessage.setAudioInfo(audioInfo);
+                    Intent playIntent = new Intent(AudioBroadcastReceiver.ACTION_PLAYMUSIC);
+                    playIntent.putExtra(AudioMessage.KEY, audioMessage);
+                    playIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    sendBroadcast(playIntent);
+                }
+            }
+        }
+    }
+
+    /**
+     * 发送暂停消息
+     * */
+    public void sendMessageToPause()
+    {
+        int playStatus = this.getPlayStatus();
+        if (playStatus == AudioPlayerManager.PLAYING) {
+
+            Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_PAUSEMUSIC);
+            resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            sendBroadcast(resumeIntent);
+
+        }
+    }
+
+    /**
+     * 发送下一首消息
+    * */
+    public void sendMessageToNext()
+    {
+        Intent nextIntent = new Intent(AudioBroadcastReceiver.ACTION_NEXTMUSIC);
+        nextIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        sendBroadcast(nextIntent);
     }
 }

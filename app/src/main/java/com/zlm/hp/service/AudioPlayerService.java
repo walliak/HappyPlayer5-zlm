@@ -941,6 +941,14 @@ public class AudioPlayerService extends Service {
      */
     private void doNetMusic() {
         AudioInfo audioInfo = mHPApplication.getCurAudioInfo();
+
+        if(audioInfo.getDownloadUrl()==null) {
+            logger.e("DownloadUrl is null");
+        }
+        else {
+            logger.e("DownloadUrl is  "+audioInfo.getDownloadUrl());
+        }
+
         mDownloadHandler.removeCallbacks(mDownloadCheckRunnable);
         //设置当前的播放状态
         mHPApplication.setPlayStatus(AudioPlayerManager.PLAYNET);

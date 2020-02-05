@@ -217,6 +217,15 @@ public class OnLineAudioManager {
                 SongInfoResult songInfoResult = SongInfoHttpUtil.songInfo(mContext, audioInfo.getHash());
                 if (songInfoResult != null) {
                     audioInfo.setDownloadUrl(songInfoResult.getUrl());
+                    if(songInfoResult.getUrl()==null){
+                        logger.e(getClass()+"songInfoResult.url is null");
+                    }
+                    else {
+                        logger.e(getClass()+songInfoResult.getUrl());
+                    }
+                }
+                else {
+                    logger.e("songInfoResult is null");
                 }
                 DownloadTask task = new DownloadTask();
                 task.setCreateTime(new Date());

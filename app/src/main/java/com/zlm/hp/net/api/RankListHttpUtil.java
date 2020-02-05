@@ -3,6 +3,7 @@ package com.zlm.hp.net.api;
 import android.content.Context;
 
 import com.zlm.hp.application.HPApplication;
+import com.zlm.hp.libs.utils.LoggerUtil;
 import com.zlm.hp.libs.utils.NetUtil;
 import com.zlm.hp.net.HttpClientUtils;
 import com.zlm.hp.net.entity.RankListResult;
@@ -54,7 +55,7 @@ public class RankListHttpUtil {
         }
 
         try {
-
+            LoggerUtil logger =LoggerUtil.getZhangLogger(context);
             Map<String, Object> returnResult = new HashMap<String, Object>();
 
             String url = "http://mobilecdn.kugou.com/api/v3/rank/list";
@@ -77,6 +78,9 @@ public class RankListHttpUtil {
                 JSONObject jsonNode = new JSONObject(result);
                 int status = jsonNode.getInt("status");
                 if (status == 1) {
+
+                    logger.e("RankList...status is 1!!!!!!!");
+
                     httpResult.setStatus(HttpResult.STATUS_SUCCESS);
 
                     JSONObject dataJsonNode = jsonNode.getJSONObject("data");

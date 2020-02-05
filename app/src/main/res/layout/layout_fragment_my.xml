@@ -888,7 +888,46 @@
                             android:textColor="@color/def_bar_title_color" />
 
                     </RelativeLayout>
+
+
                 </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#f3f3f3"></View>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3">
+
+                    <TextView
+                        android:id="@+id/iat_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="top|left"
+                        android:hint="语音听写结果显示"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
 
 
             </LinearLayout>

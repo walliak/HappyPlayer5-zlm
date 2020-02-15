@@ -34,40 +34,44 @@ public class SongInfoHttpUtil {
             LoggerUtil logger =LoggerUtil.getZhangLogger(context);
 //            String url = "http://m.kugou.com/app/i/getSongInfo.php";
             String url = "http://www.kugou.com/yy/index.php";
+
+
             Map<String, Object> params = new HashMap<String, Object>();
-//            params.put("Cookie",md5Decode(getStringRandom(4)));
-//            params.put("cmd", "playInfo");
-            params.put("Cookie", "kg_mid="+md5Decode(getStringRandom(4)));
             params.put("r","play/getdata");
             params.put("hash", hash);
 
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("Cookie", "kg_mid="+md5Decode(getStringRandom(4)));
+
             // 获取数据
-            String result = HttpClientUtils.httpGetRequest(url, params);
+            String result = HttpClientUtils.httpGetRequest(url, headers,params);
             if (result != null) {
                 logger.e("SongInfoResult...result is ok!!!!!!!!!!");
 
                 JSONObject jsonNode = new JSONObject(result);
-                int status = jsonNode.getInt("status");
-//                String error = jsonNode.getString("error");
-                int err_code = jsonNode.getInt("err_code");
 
+                int status = jsonNode.getInt("status");
+                int err_code = jsonNode.getInt("err_code");
                 logger.e(String.format("status is %d",status));
-//                logger.e("error is"+error);
-                logger.e(String.format("errcode is %d",err_code));
+                logger.e(String.format("err_code is %d",err_code));
+
                 if (status == 1) {
 
                     SongInfoResult songInfoResult = new SongInfoResult();
-                    songInfoResult.setDuration(jsonNode.getInt("timeLength")
+                    songInfoResult.setDuration(jsonNode.getInt("timelength")
                             * 1000 + "");
-                    songInfoResult.setExtName(jsonNode.getString("extName"));
-                    songInfoResult.setFileSize(jsonNode.getString("fileSize"));
+//                    songInfoResult.setExtName(jsonNode.getString("extName"));
+                    songInfoResult.setExtName("mp3");
+                    songInfoResult.setFileSize(jsonNode.getString("filesize"));
                     songInfoResult.setHash(jsonNode.getString("hash").toLowerCase());
-                    songInfoResult.setImgUrl(jsonNode.getString("imgUrl")
-                            .replace("{size}", "400"));
-                    songInfoResult.setSingerName(jsonNode.getString("singerName"));
-                    songInfoResult.setSongName(jsonNode.getString("songName"));
-                    songInfoResult.setUrl(jsonNode.getString("url"));
-                    logger.e("SongInfoResult...Url is "+jsonNode.getString("url"));
+                    songInfoResult.setImgUrl(jsonNode.getString("img"));
+
+                    songInfoResult.setSingerName(jsonNode.getString("author_name"));
+                    songInfoResult.setSongName(jsonNode.getString("song_name"));
+
+
+                    songInfoResult.setUrl(jsonNode.getString("play_url"));
+                    logger.e("Url is "+jsonNode.getString("play_url"));
 
                     return songInfoResult;
                 }

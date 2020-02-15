@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zlm.hp.adapter.LrcPopPlayListAdapter;
 import com.zlm.hp.adapter.LrcPopSingerListAdapter;
@@ -45,10 +46,12 @@ import com.zlm.hp.model.DownloadMessage;
 import com.zlm.hp.model.SongSingerInfo;
 import com.zlm.hp.receiver.AudioBroadcastReceiver;
 import com.zlm.hp.receiver.OnLineAudioReceiver;
+import com.zlm.hp.receiver.VoiceHelperReceiver;
 import com.zlm.hp.utils.ImageUtil;
 import com.zlm.hp.utils.MediaUtil;
 import com.zlm.hp.utils.ResourceFileUtil;
 import com.zlm.hp.widget.ButtonRelativeLayout;
+import com.zlm.hp.widget.DragFloatActionButton;
 import com.zlm.hp.widget.IconfontImageButtonTextView;
 import com.zlm.hp.widget.IconfontTextView;
 import com.zlm.hp.widget.LinearLayoutRecyclerView;
@@ -136,6 +139,9 @@ public class LrcActivity extends BaseActivity {
     private ImageView mShowTTToTranslateImg;
     private ImageView mShowTTToTransliterationImg;
     private ImageView mHideTTImg;
+
+    //拖拽语音助手按钮
+    private DragFloatActionButton mDragFloatActionButton;
 
     private final int HASTRANSLATELRC = 0;
     private final int HASTRANSLITERATIONLRC = 1;
@@ -642,6 +648,16 @@ public class LrcActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+
+        mDragFloatActionButton =  findViewById(R.id.dfab);
+        mDragFloatActionButton.setOnClickListener(new DragFloatActionButton.OnClickListener() {
+            @Override
+            public void onClick() {
+                Toast.makeText(LrcActivity.this,getString(R.string.notification_voice_start), Toast.LENGTH_SHORT).show();
+                mHPApplication.sendMessageToVoiceHelper();
+            }
+        });
+
         mRotateLayout = findViewById(R.id.rotateLayout);
         mRotateLayout.setRotateLayoutListener(new RotateLayout.RotateLayoutListener() {
             @Override
@@ -2089,6 +2105,12 @@ public class LrcActivity extends BaseActivity {
      */
     private void initService() {
 
+        //注册语音助手广播
+        mVoiceHelperReceiver = new VoiceHelperReceiver(getApplicationContext(),mHPApplication);
+        mVoiceHelperReceiver.setVoiceHelperReceiverListener(mvoiceHelperReceiverListener);
+        mVoiceHelperReceiver.registerReceiver(getApplicationContext());
+
+
         //注册接收音频播放广播
         mAudioBroadcastReceiver = new AudioBroadcastReceiver(getApplicationContext(), mHPApplication);
         mAudioBroadcastReceiver.setAudioReceiverListener(mAudioReceiverListener);
@@ -2103,6 +2125,8 @@ public class LrcActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+
+        mVoiceHelperReceiver.unregisterReceiver(getApplicationContext());
 
         //注销广播
         mAudioBroadcastReceiver.unregisterReceiver(getApplicationContext());
@@ -2148,4 +2172,16 @@ public class LrcActivity extends BaseActivity {
     public interface LrcActivityListener {
         void closeSingerPopListVeiw(String singerName);
     }
+
+    private VoiceHelperReceiver mVoiceHelperReceiver;
+    private VoiceHelperReceiver.VoiceHelperReceiverListener mvoiceHelperReceiverListener = new VoiceHelperReceiver.VoiceHelperReceiverListener() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW)){
+                Toast.makeText(getApplicationContext(),getString(R.string.notification_voice_finish),Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    };
 }

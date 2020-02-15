@@ -35,6 +35,8 @@
                     android:layout_height="match_parent"
                     android:overScrollMode="never"></android.support.v4.view.ViewPager>
 
+
+
             </LinearLayout>
 
 
@@ -64,6 +66,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/player_height"></com.zlm.hp.widget.SwipeOutLayout>
         </LinearLayout>
+
+
+
+        <include
+            layout="@layout/layout_dragfloatactionbutton"></include>
+
     </RelativeLayout>
 
 

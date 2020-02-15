@@ -466,8 +466,8 @@
 
                         <com.zlm.hp.widget.SetupBGButton
                             android:id="@+id/sayhello"
-                            android:layout_width="68dp"
-                            android:layout_height="54dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
@@ -912,11 +912,6 @@
                 android:clickable="true"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3">
-
                     <TextView
                         android:id="@+id/iat_text"
                         android:layout_width="match_parent"
@@ -927,12 +922,9 @@
                         android:paddingBottom="10dp"
                         android:textSize="20sp" />
 
-                </RelativeLayout>
-
-
             </LinearLayout>
-
         </LinearLayout>
+
 
     </ScrollView>
 </LinearLayout>

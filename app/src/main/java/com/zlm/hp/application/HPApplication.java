@@ -15,6 +15,7 @@ import com.zlm.hp.model.AudioInfo;
 import com.zlm.hp.model.AudioMessage;
 import com.zlm.hp.net.entity.RankListResult;
 import com.zlm.hp.receiver.AudioBroadcastReceiver;
+import com.zlm.hp.receiver.VoiceHelperReceiver;
 import com.zlm.hp.ui.R;
 import com.zlm.hp.utils.ResourceFileUtil;
 import com.zlm.hp.utils.SerializableObjUtil;
@@ -573,5 +574,13 @@ public class HPApplication extends MultiDexApplication {
         Intent nextIntent = new Intent(AudioBroadcastReceiver.ACTION_NEXTMUSIC);
         nextIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         sendBroadcast(nextIntent);
+    }
+
+    public void sendMessageToVoiceHelper()
+    {
+        Intent voiceIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPERSTART);
+        voiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        sendBroadcast(voiceIntent);
+        logger.e("send message to voicehelper");
     }
 }

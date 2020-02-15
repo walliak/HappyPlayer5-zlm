@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zlm.hp.adapter.MainPopPlayListAdapter;
 import com.zlm.hp.adapter.TabFragmentAdapter;
@@ -57,10 +59,13 @@ import com.zlm.hp.receiver.MobliePhoneReceiver;
 import com.zlm.hp.receiver.OnLineAudioReceiver;
 import com.zlm.hp.receiver.PhoneReceiver;
 import com.zlm.hp.receiver.SystemReceiver;
+import com.zlm.hp.receiver.VoiceHelperReceiver;
 import com.zlm.hp.service.AudioPlayerService;
 import com.zlm.hp.service.FloatService;
+import com.zlm.hp.service.VoiceHelperService;
 import com.zlm.hp.utils.ImageUtil;
 import com.zlm.hp.utils.ToastShowUtil;
+import com.zlm.hp.widget.DragFloatActionButton;
 import com.zlm.hp.widget.IconfontImageButtonTextView;
 import com.zlm.hp.widget.IconfontIndicatorTextView;
 import com.zlm.hp.widget.IconfontTextView;
@@ -247,6 +252,11 @@ public class MainActivity extends BaseActivity {
     /**
      * 检测服务线程
      */
+
+    private DragFloatActionButton mDragFloatActionButton;
+
+    private TabFragmentAdapter mTabFragmentAdapter;
+
     private Runnable mCheckServiceRunnable = new Runnable() {
         @Override
         public void run() {
@@ -687,6 +697,13 @@ public class MainActivity extends BaseActivity {
         Intent playerServiceIntent = new Intent(this, AudioPlayerService.class);
         mHPApplication.startService(playerServiceIntent);
 
+        Intent voiceHelperIntent = new Intent(this, VoiceHelperService.class);
+        mHPApplication.startService(voiceHelperIntent);
+
+        //注册语音助手广播
+        mVoiceHelperReceiver = new VoiceHelperReceiver(getApplicationContext(),mHPApplication);
+        mVoiceHelperReceiver.setVoiceHelperReceiverListener(mvoiceHelperReceiverListener);
+        mVoiceHelperReceiver.registerReceiver(getApplicationContext());
 
         //注册接收音频播放广播
         mAudioBroadcastReceiver = new AudioBroadcastReceiver(getApplicationContext(), mHPApplication);
@@ -824,8 +841,8 @@ public class MainActivity extends BaseActivity {
         fragments.add(new TabRecommendFragment());
 
         //
-        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-        mViewPager.setAdapter(adapter);
+        mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
+        mViewPager.setAdapter(mTabFragmentAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -846,6 +863,15 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        mDragFloatActionButton=  findViewById(R.id.dfab);
+        mDragFloatActionButton.setOnClickListener(new DragFloatActionButton.OnClickListener() {
+            @Override
+            public void onClick() {
+                Toast.makeText(MainActivity.this, getString(R.string.notification_voice_start), Toast.LENGTH_SHORT).show();
+                mHPApplication.sendMessageToVoiceHelper();
             }
         });
 
@@ -1395,6 +1421,11 @@ public class MainActivity extends BaseActivity {
         Intent playerServiceIntent = new Intent(this, AudioPlayerService.class);
         mHPApplication.stopService(playerServiceIntent);
 
+        Intent voiceServiceIntent = new Intent(this, VoiceHelperService.class);
+        mHPApplication.stopService(voiceServiceIntent );
+
+        //注销语音助手广播
+        mVoiceHelperReceiver.unregisterReceiver(getApplicationContext());
 
         //注销广播
         mAudioBroadcastReceiver.unregisterReceiver(getApplicationContext());
@@ -1478,4 +1509,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private VoiceHelperReceiver mVoiceHelperReceiver;
+    private VoiceHelperReceiver.VoiceHelperReceiverListener mvoiceHelperReceiverListener = new VoiceHelperReceiver.VoiceHelperReceiverListener() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW)){
+                Toast.makeText(getApplicationContext(),getString(R.string.notification_voice_finish),Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    };
 }

@@ -201,6 +201,7 @@
                         android:layout_alignParentBottom="true"></include>
 
 
+
                 </RelativeLayout>
             </LinearLayout>
 
@@ -231,6 +232,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:layout="@layout/layout_lrc_songinfo_pop"></ViewStub>
+
+            <include
+                layout="@layout/layout_dragfloatactionbutton"></include>
+
         </RelativeLayout>
     </LinearLayout>
 </com.zlm.libs.widget.RotateLayout>

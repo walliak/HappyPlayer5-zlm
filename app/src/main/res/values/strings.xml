@@ -81,6 +81,8 @@
     <string name="tab_voice_helper">语音助手</string>
     <string name="app_id">5e081d66</string>
     <string name="action_key_play">播放</string>
-    <string name="action_key_pause">暂停</string>
+    <string name="action_key_pause">停</string>
     <string name="action_key_next">下一</string>
+    <string name="notification_voice_start">语音助手开始</string>
+    <string name="notification_voice_finish">语音助手结束</string>
 </resources>

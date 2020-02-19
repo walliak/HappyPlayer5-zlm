@@ -2182,6 +2182,9 @@ public class LrcActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(),getString(R.string.notification_voice_finish),Toast.LENGTH_SHORT)
                         .show();
             }
+            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_BACK)){
+                mRotateLayout.closeView();
+            }
         }
     };
 }

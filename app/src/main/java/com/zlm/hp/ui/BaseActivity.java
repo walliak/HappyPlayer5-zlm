@@ -214,4 +214,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         HPApplication.getRefWatcher().watch(this);
         super.onDestroy();
     }
+
+    @Override
+    protected   void onResume(){
+        super.onResume();
+        mHPApplication.setCurrentActivityName(getClass().getSimpleName());
+    }
 }

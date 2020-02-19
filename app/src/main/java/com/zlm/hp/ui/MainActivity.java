@@ -39,6 +39,7 @@ import com.zlm.hp.fragment.SearchFragment;
 import com.zlm.hp.fragment.TabMyFragment;
 import com.zlm.hp.fragment.TabRecommendFragment;
 import com.zlm.hp.libs.utils.ColorUtil;
+import com.zlm.hp.libs.utils.LoggerUtil;
 import com.zlm.hp.libs.utils.ToastUtil;
 import com.zlm.hp.libs.widget.CircleImageView;
 import com.zlm.hp.lyrics.LyricsReader;
@@ -76,6 +77,7 @@ import com.zlm.libs.widget.MusicSeekBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @Description: 主界面
@@ -1513,11 +1515,26 @@ public class MainActivity extends BaseActivity {
     private VoiceHelperReceiver.VoiceHelperReceiverListener mvoiceHelperReceiverListener = new VoiceHelperReceiver.VoiceHelperReceiverListener() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             String action = intent.getAction();
             if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW)){
                 Toast.makeText(getApplicationContext(),getString(R.string.notification_voice_finish),Toast.LENGTH_SHORT)
                         .show();
             }
+
+            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LRCACTIVITY)){
+                //设置底部点击后，下沉动画
+                TranslateAnimation transAnim = new TranslateAnimation(0, 0, 0, mPlayerBarParentLinearLayout.getHeight());
+                transAnim.setDuration(150);
+                transAnim.setFillAfter(true);
+                mPlayerBarParentLinearLayout.startAnimation(transAnim);
+                //
+                Intent openIntent = new Intent(MainActivity.this, LrcActivity.class);
+                startActivityForResult(openIntent, MAINTOLRCRESULTCODE);
+                //去掉动画
+                overridePendingTransition(0, 0);
+            }
+
         }
     };
 }

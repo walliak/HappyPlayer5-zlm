@@ -54,41 +54,41 @@ public class SplashActivity extends BaseActivity {
     private void doSomeThing() {
         //是否是第一次使用
         boolean isFrist = (boolean) PreferencesUtil.getValue(getApplicationContext(), PreferencesConstants.isFrist_KEY, true);
-        if (isFrist) {
-            //第一次使用扫描本地歌曲
-            final List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
-            MediaUtil.scanLocalMusic(SplashActivity.this, new MediaUtil.ForeachListener() {
-                @Override
-                public void foreach(AudioInfo audioInfo) {
-                    if (audioInfo != null) {
-                        audioInfos.add(audioInfo);
-                    }
-                }
-
-                @Override
-                public boolean filter(String hash) {
-                    boolean flag = false;
-                    for (int i = 0; i < audioInfos.size(); i++) {
-                        AudioInfo audioInfo = audioInfos.get(i);
-                        if (audioInfo.getHash().equals(hash)) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        return true;
-                    }
-                    return AudioInfoDB.getAudioInfoDB(getApplicationContext()).isExists(hash);
-                }
-            });
-            if (audioInfos.size() > 0) {
-                AudioInfoDB.getAudioInfoDB(getApplicationContext()).add(audioInfos);
-            }
-            mHPApplication.setFrist(false);
-        } else {
-            //设置延迟时间
-            mDelayTime *= 2;
-        }
+//        if (isFrist) {
+//            //第一次使用扫描本地歌曲
+//            final List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
+//            MediaUtil.scanLocalMusic(SplashActivity.this, new MediaUtil.ForeachListener() {
+//                @Override
+//                public void foreach(AudioInfo audioInfo) {
+//                    if (audioInfo != null) {
+//                        audioInfos.add(audioInfo);
+//                    }
+//                }
+//
+//                @Override
+//                public boolean filter(String hash) {
+//                    boolean flag = false;
+//                    for (int i = 0; i < audioInfos.size(); i++) {
+//                        AudioInfo audioInfo = audioInfos.get(i);
+//                        if (audioInfo.getHash().equals(hash)) {
+//                            flag = true;
+//                            break;
+//                        }
+//                    }
+//                    if (flag) {
+//                        return true;
+//                    }
+//                    return AudioInfoDB.getAudioInfoDB(getApplicationContext()).isExists(hash);
+//                }
+//            });
+//            if (audioInfos.size() > 0) {
+//                AudioInfoDB.getAudioInfoDB(getApplicationContext()).add(audioInfos);
+//            }
+//            mHPApplication.setFrist(false);
+//        } else {
+//            //设置延迟时间
+//            mDelayTime *= 2;
+//        }
 
         //注册捕捉全局异常
         CrashHandler crashHandler = new CrashHandler();

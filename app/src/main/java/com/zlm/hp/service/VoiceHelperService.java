@@ -21,8 +21,6 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.speech.util.JsonParser;
 import com.zlm.hp.application.HPApplication;
 import com.zlm.hp.libs.utils.LoggerUtil;
-import com.zlm.hp.receiver.AudioBroadcastReceiver;
-import com.zlm.hp.receiver.FragmentReceiver;
 import com.zlm.hp.receiver.VoiceHelperReceiver;
 import com.zlm.hp.ui.R;
 
@@ -158,7 +156,24 @@ public class VoiceHelperService extends Service {
         }
     };
 
+    /**
+     * 听写UI监听器
+     */
+    private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
+        public void onResult(RecognizerResult results, boolean isLast) {
 
+            printResult(results);
+        }
+
+        /**
+         * 识别回调错误.
+         */
+        public void onError(SpeechError error) {
+            logger.e(error.getPlainDescription(true));
+
+        }
+
+    };
 
     private void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
@@ -179,7 +194,8 @@ public class VoiceHelperService extends Service {
             mResultBuffer.append(mIatResults.get(key));
         }
 
-
+        sendMessageToShow();
+        voiceTranslateToAction(mResultBuffer.toString());
 
     }
 
@@ -194,60 +210,20 @@ public class VoiceHelperService extends Service {
     }
 
     public void voiceTranslateToAction(String result) {
+        if(result ==null){
+            logger.e("语音为空");
 
-        Intent showIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW);
-        showIntent.putExtra("showText",mResultBuffer.toString());
-        showIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        sendBroadcast(showIntent);
+        }else {
 
-        if(result.contains(getString(R.string.action_key_play))){
-            mHPApplication.sendMessageToPlay();
-        }
-        if(result.contains(getString(R.string.action_key_pause))){
-            mHPApplication.sendMessageToPause();
-        }
-        if(result.contains((getString(R.string.action_key_next)))){
-            mHPApplication.sendMessageToNext();
-        }
-        if(result.contains((getString(R.string.action_key_previous)))){
-            mHPApplication.sendMessageToPre();
-        }
-
-        if(result.contains(getString(R.string.action_key_like_open))){
-            Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LIKE);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-        }
-        if(result.contains(getString(R.string.action_key_local_open))){
-            Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LOCAL);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-        }
-        if(result.contains(getString(R.string.action_key_download_open))){
-            Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_DOWNLOAD);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-        }
-        if(result.contains(getString(R.string.action_key_recent_open))){
-            Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_RECENT);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-        }
-        if(result.contains(getString(R.string.action_key_lrcActivity_open))){
-            Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LRCACTIVITY);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-        }
-
-        if(result.contains(getString(R.string.action_key_back))){
-            Intent voiceMessageShowIntent = new Intent(FragmentReceiver.ACTION_CLOSEDFRAGMENT);
-            voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageShowIntent);
-
-            Intent voiceMessageIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPER_BACK);
-            voiceMessageIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            sendBroadcast(voiceMessageIntent);
-
+            if(result.contains(getString(R.string.action_key_play))){
+                mHPApplication.sendMessageToPlay();
+            }
+            if(result.contains(getString(R.string.action_key_pause))){
+                mHPApplication.sendMessageToPause();
+            }
+            if(result.contains((getString(R.string.action_key_next)))){
+                mHPApplication.sendMessageToNext();
+            }
         }
 
     }
@@ -273,8 +249,6 @@ public class VoiceHelperService extends Service {
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
             logger.e("结束说话");
-
-            voiceTranslateToAction(mResultBuffer.toString());
         }
 
         @Override
@@ -292,7 +266,7 @@ public class VoiceHelperService extends Service {
 
         @Override
         public void onVolumeChanged(int volume, byte[] data) {
-//            logger.e("当前正在说话，音量大小：" + volume);
+            logger.e("当前正在说话，音量大小：" + volume);
             Log.d(TAG, "返回音频数据："+data.length);
         }
 
@@ -312,5 +286,15 @@ public class VoiceHelperService extends Service {
             mVoiceThread = null;
         }
         System.gc();
+    }
+
+    private void sendMessageToShow()
+    {
+        Intent voiceMessageShowIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW);
+        voiceMessageShowIntent.putExtra("showText",mResultBuffer.toString());
+        voiceMessageShowIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        sendBroadcast(voiceMessageShowIntent);
+        //Toast.makeText(getApplicationContext(),getString(R.string.notification_voice_finish),Toast.LENGTH_SHORT).show();
+
     }
 }

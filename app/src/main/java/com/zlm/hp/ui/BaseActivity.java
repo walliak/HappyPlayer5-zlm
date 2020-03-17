@@ -102,6 +102,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             return;
         }
 
+        if (!mStoragePermissionUtil.verifyRecordAudioPermissions(this)) {
+            return;
+        }
+
         logger = LoggerUtil.getZhangLogger(getApplicationContext());
         ActivityManage.getInstance().addActivity(this);
 
@@ -213,11 +217,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         HPApplication.getRefWatcher().watch(this);
         super.onDestroy();
-    }
-
-    @Override
-    protected   void onResume(){
-        super.onResume();
-        mHPApplication.setCurrentActivityName(getClass().getSimpleName());
     }
 }

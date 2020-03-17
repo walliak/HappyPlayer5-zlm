@@ -12,7 +12,7 @@ import com.zlm.hp.application.HPApplication;
 import com.zlm.hp.dialog.AlartOneButtonDialog;
 
 /**
- * @Description: 文件权限处理类
+ * @Description: 文件权限处理类 录音权限
  * @Param:
  * @Return:
  * @Author: zhangliangming
@@ -27,6 +27,11 @@ public class StoragePermissionUtil {
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    private static final int REQUEST_RECORD_AUDIO = 1;
+    private static String[] PERMISSIONS_RECORD_AUDIO ={
+            Manifest.permission.RECORD_AUDIO} ;
+
 
     /**
      * 提示窗口
@@ -80,6 +85,24 @@ public class StoragePermissionUtil {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
+
+            return false;
+        }
+
+        return true;
+    }
+    //录音处理权限
+    public boolean verifyRecordAudioPermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_RECORD_AUDIO,
+                    REQUEST_RECORD_AUDIO);
 
             return false;
         }

@@ -34,19 +34,8 @@ public class VoiceHelperReceiver {
      * 注册成功广播
      */
     private String ACTION_VOICEHELPERSUCCESS = "com.zlm.hp.voicehelper.success_" + new Date().getTime();
-
-    //
-    public static final String ACTION_VOICEHELPERSTART = "com.zlm.hp.voice_helper.start";
-    public static final String ACTION_VOICEHELPERSHOW = "com.zlm.hp.voice_helper.show";
-
-
-    //
-    public static final String ACTION_VOICEHELPER_OPEN_LOCAL = "com.zlm.hp.voice_helper.open_local";
-    public static final String ACTION_VOICEHELPER_OPEN_LIKE = "com.zlm.hp.voice_helper.open_like";
-    public static final String ACTION_VOICEHELPER_OPEN_DOWNLOAD = "com.zlm.hp.voice_helper.open_download";
-    public static final String ACTION_VOICEHELPER_OPEN_RECENT = "com.zlm.hp.voice_helper.open_recent";
-    public static final String ACTION_VOICEHELPER_OPEN_LRCACTIVITY = "com.zlm.hp.voice_helper.open_lrcActivity";
-    public static final String ACTION_VOICEHELPER_BACK = "com.zlm.hp.voice_helper.back";
+    public static final String ACTION_VOICEHELPERSTART = "com.zlm.hp.voicehelper.start";
+    public static final String ACTION_VOICEHELPERSHOW = "com.zlm.hp.voicehelper.show";
 
     private BroadcastReceiver mVoiceHelperBroadcastReceiver;
     private IntentFilter mVoiceHelperIntentFilter;
@@ -64,13 +53,6 @@ public class VoiceHelperReceiver {
         //
         mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPERSTART);
         mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPERSHOW);
-
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_OPEN_DOWNLOAD);
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_OPEN_LIKE);
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_OPEN_LOCAL);
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_OPEN_LRCACTIVITY);
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_OPEN_RECENT);
-        mVoiceHelperIntentFilter.addAction(ACTION_VOICEHELPER_BACK);
     }
 
 

@@ -308,8 +308,6 @@ public class TabMyFragment extends BaseFragment {
     @Override
     protected void initViews(Bundle savedInstanceState, View mainView) {
 
-        mResultText = mainView.findViewById(R.id.text_result);
-
         //本地音乐
         mLocalMusic = mainView.findViewById(R.id.tab_local_music);
         mLocalMusic.setOnClickListener(new View.OnClickListener() {
@@ -367,216 +365,216 @@ public class TabMyFragment extends BaseFragment {
         });
         mRecentCountTv = mainView.findViewById(R.id.recent_music_count);
 
+
         //wifi设置按钮
-////        mWifiSetupBGButton = mainView.findViewById(R.id.wifibg);
-////        if (mHPApplication.isWifi()) {
-////            mWifiSetupBGButton.setSelect(true);
-////        }
-////        mWifiSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                //
-////                boolean selected = mWifiSetupBGButton.isSelect();
-////                mHPApplication.setWifi(!selected);
-////                mWifiSetupBGButton.setSelect(mHPApplication.isWifi());
-////            }
-////        });
-////
-////
-////        //锁屏按钮
-////        mLocklrcSetupBGButton = mainView.findViewById(R.id.locklrcbg);
-////        if (mHPApplication.isShowLockScreen()) {
-////            mLocklrcSetupBGButton.setSelect(true);
-////        }
-////        mLocklrcSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////
-////                boolean selected = mLocklrcSetupBGButton.isSelect();
-////                mHPApplication.setShowLockScreen(!selected);
-////                mLocklrcSetupBGButton.setSelect(mHPApplication.isShowLockScreen());
-////
-////            }
-////        });
-////
-////        mFloatWPAlartDialog = new AlartOneButtonDialog(getActivity(), new AlartOneButtonDialog.ButtonDialogListener() {
-////            @Override
-////            public void ButtonClick() {
-////                IntentUtils.gotoPermissionSetting(getActivity());
-////            }
-////        });
-////
-////        mFloatWSetupBGButton = mainView.findViewById(R.id.floatwbg);
-////        if (mHPApplication.isShowDesktop()) {
-////            mFloatWSetupBGButton.setSelect(true);
-////        }
-////        mFloatWSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                boolean selected = mFloatWSetupBGButton.isSelect();
-////                if (!selected) {
-////                    if (!AppOpsUtils.allowFloatWindow(getActivity())) {
-////                        mFloatWPAlartDialog.showDialog("1.进入设置>更多应用>乐乐音乐>权限管理>显示悬浮窗\n2.开启允许", "立即设置");
-////                        return;
-////                    }
-////                }
-////
-////                Intent intent = null;
-////                if (!selected) {
-////                    intent = new Intent(NotificationReceiver.NOTIFIATION_DESLRC_SHOW);
-////                } else {
-////                    intent = new Intent(NotificationReceiver.NOTIFIATION_DESLRC_HIDE);
-////                }
-////                intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-////                mActivity.sendBroadcast(intent);
-////
-////            }
-////        });
-////
-////        //问候语按钮
-////        mSayHelloSetupBGButton = mainView.findViewById(R.id.sayhello);
-////        if (mHPApplication.isSayHello()) {
-////            mSayHelloSetupBGButton.setSelect(true);
-////        }
-////        mSayHelloSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                boolean selected = mSayHelloSetupBGButton.isSelect();
-////                mHPApplication.setSayHello(!selected);
-////                mSayHelloSetupBGButton.setSelect(mHPApplication.isSayHello());
-////            }
-////        });
-////
-////        //线控
-////        mWireSetupBGButton = mainView.findViewById(R.id.wire);
-////        if (mHPApplication.isWire()) {
-////            mWireSetupBGButton.setSelect(true);
-////        }
-////        mWireSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                boolean selected = mWireSetupBGButton.isSelect();
-////                mHPApplication.setWire(!selected);
-////                mWireSetupBGButton.setSelect(mHPApplication.isWire());
-////                if (mHPApplication.isWire()) {
-////                    Intent openIntent = new Intent(SystemReceiver.ACTION_OPENWIREMESSAGE);
-////                    openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-////                    mActivity.sendBroadcast(openIntent);
-////                } else {
-////                    Intent closeIntent = new Intent(SystemReceiver.ACTION_CLOSEWIREMESSAGE);
-////                    closeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-////                    mActivity.sendBroadcast(closeIntent);
-////                }
-////            }
-////        });
-////
-////
-////        //关闭设置按钮
-////        mExitSetupBGButton = mainView.findViewById(R.id.exitbg);
-////        mExitSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                mExitAlartDialog.showDialog("是否退出应用？", "取消", "确定");
-////            }
-////        });
-////        //
-////        mExitAlartDialog = new AlartTwoButtonDialog(mActivity, new AlartTwoButtonDialog.TwoButtonDialogListener() {
-////            @Override
-////            public void oneButtonClick() {
-////
-////            }
-////
-////            @Override
-////            public void twoButtonClick() {
-////
-////                mHPApplication.setAppClose(true);
-////
-////                ActivityManage.getInstance().exit();
-////
-////            }
-////        });
-////
-////        //歌词转换器
-////        mConverterSetupBGButton = mainView.findViewById(R.id.lrc_converter);
-////        mConverterSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                Intent lrcConverterIntent = new Intent(mActivity,
-////                        LrcConverterActivity.class);
-////                startActivity(lrcConverterIntent);
-////                //去掉动画
-////                mActivity.overridePendingTransition(0, 0);
-////            }
-////        });
-////
-////        //歌词制作器
-////        mMakeLrcSetupBGButton = mainView.findViewById(R.id.make_lrc);
-////        mMakeLrcSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////
-////                //如果当前正在播放歌曲，先暂停
-////                int playStatus = mHPApplication.getPlayStatus();
-////                if (playStatus == AudioPlayerManager.PLAYING) {
-////
-////                    Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_PAUSEMUSIC);
-////                    resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-////                    mActivity.sendBroadcast(resumeIntent);
-////
-////                }
-////
-////                //打开制作歌词界面
-////                Intent lrcMakerIntent = new Intent(mActivity,
-////                        LrcMakerActivity.class);
-////                startActivity(lrcMakerIntent);
-////                //去掉动画
-////                mActivity.overridePendingTransition(0, 0);
-////            }
-////        });
-////
-////
-////        //歌词视频生成器
-////        mImg2VideoSetupBGButton = mainView.findViewById(R.id.lrc_to_video);
-////        mImg2VideoSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                Intent lrcConverterIntent = new Intent(mActivity,
-////                        LrcImg2VideoActivity.class);
-////                startActivity(lrcConverterIntent);
-////                //去掉动画
-////                mActivity.overridePendingTransition(0, 0);
-////            }
-////        });
-////
-////        //定时关闭按钮
-////        mTimerPowerOffSetupBGButton = mainView.findViewById(R.id.timer_power_off);
-////        mTimerPowerOffSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                boolean select = mTimerPowerOffSetupBGButton.isSelect();
-////                mCurTime = 0;
-////                mTimerPowerOffHandler.removeCallbacks(mTimerPowerOffRunnable);
-////                if (select) {
-////                    Toast.makeText(mActivity.getApplicationContext(), "你取消了定时关闭", Toast.LENGTH_SHORT).show();
-////                } else {
-////                    Toast.makeText(mActivity.getApplicationContext(), "1小时后关闭应用", Toast.LENGTH_SHORT).show();
-////                    mTimerPowerOffHandler.post(mTimerPowerOffRunnable);
-////                }
-////                mTimerPowerOffSetupBGButton.setSelect(!select);
-////
-////            }
-////        });
-////
-////        mResultText = mainView.findViewById(R.id.iat_text);
-////       //语音助手按钮
-////        mVoiceHelperSetupBGButton = mainView.findViewById(R.id.voice_helper);
-////        mVoiceHelperSetupBGButton.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////
-////            }
-////        });
-//
+        mWifiSetupBGButton = mainView.findViewById(R.id.wifibg);
+        if (mHPApplication.isWifi()) {
+            mWifiSetupBGButton.setSelect(true);
+        }
+        mWifiSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+                boolean selected = mWifiSetupBGButton.isSelect();
+                mHPApplication.setWifi(!selected);
+                mWifiSetupBGButton.setSelect(mHPApplication.isWifi());
+            }
+        });
+
+
+        //锁屏按钮
+        mLocklrcSetupBGButton = mainView.findViewById(R.id.locklrcbg);
+        if (mHPApplication.isShowLockScreen()) {
+            mLocklrcSetupBGButton.setSelect(true);
+        }
+        mLocklrcSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                boolean selected = mLocklrcSetupBGButton.isSelect();
+                mHPApplication.setShowLockScreen(!selected);
+                mLocklrcSetupBGButton.setSelect(mHPApplication.isShowLockScreen());
+
+            }
+        });
+
+        mFloatWPAlartDialog = new AlartOneButtonDialog(getActivity(), new AlartOneButtonDialog.ButtonDialogListener() {
+            @Override
+            public void ButtonClick() {
+                IntentUtils.gotoPermissionSetting(getActivity());
+            }
+        });
+
+        mFloatWSetupBGButton = mainView.findViewById(R.id.floatwbg);
+        if (mHPApplication.isShowDesktop()) {
+            mFloatWSetupBGButton.setSelect(true);
+        }
+        mFloatWSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean selected = mFloatWSetupBGButton.isSelect();
+                if (!selected) {
+                    if (!AppOpsUtils.allowFloatWindow(getActivity())) {
+                        mFloatWPAlartDialog.showDialog("1.进入设置>更多应用>乐乐音乐>权限管理>显示悬浮窗\n2.开启允许", "立即设置");
+                        return;
+                    }
+                }
+
+                Intent intent = null;
+                if (!selected) {
+                    intent = new Intent(NotificationReceiver.NOTIFIATION_DESLRC_SHOW);
+                } else {
+                    intent = new Intent(NotificationReceiver.NOTIFIATION_DESLRC_HIDE);
+                }
+                intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                mActivity.sendBroadcast(intent);
+
+            }
+        });
+
+        //问候语按钮
+        mSayHelloSetupBGButton = mainView.findViewById(R.id.sayhello);
+        if (mHPApplication.isSayHello()) {
+            mSayHelloSetupBGButton.setSelect(true);
+        }
+        mSayHelloSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean selected = mSayHelloSetupBGButton.isSelect();
+                mHPApplication.setSayHello(!selected);
+                mSayHelloSetupBGButton.setSelect(mHPApplication.isSayHello());
+            }
+        });
+
+        //线控
+        mWireSetupBGButton = mainView.findViewById(R.id.wire);
+        if (mHPApplication.isWire()) {
+            mWireSetupBGButton.setSelect(true);
+        }
+        mWireSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean selected = mWireSetupBGButton.isSelect();
+                mHPApplication.setWire(!selected);
+                mWireSetupBGButton.setSelect(mHPApplication.isWire());
+                if (mHPApplication.isWire()) {
+                    Intent openIntent = new Intent(SystemReceiver.ACTION_OPENWIREMESSAGE);
+                    openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    mActivity.sendBroadcast(openIntent);
+                } else {
+                    Intent closeIntent = new Intent(SystemReceiver.ACTION_CLOSEWIREMESSAGE);
+                    closeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    mActivity.sendBroadcast(closeIntent);
+                }
+            }
+        });
+
+
+        //关闭设置按钮
+        mExitSetupBGButton = mainView.findViewById(R.id.exitbg);
+        mExitSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mExitAlartDialog.showDialog("是否退出应用？", "取消", "确定");
+            }
+        });
+        //
+        mExitAlartDialog = new AlartTwoButtonDialog(mActivity, new AlartTwoButtonDialog.TwoButtonDialogListener() {
+            @Override
+            public void oneButtonClick() {
+
+            }
+
+            @Override
+            public void twoButtonClick() {
+
+                mHPApplication.setAppClose(true);
+
+                ActivityManage.getInstance().exit();
+
+            }
+        });
+
+        //歌词转换器
+        mConverterSetupBGButton = mainView.findViewById(R.id.lrc_converter);
+        mConverterSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent lrcConverterIntent = new Intent(mActivity,
+                        LrcConverterActivity.class);
+                startActivity(lrcConverterIntent);
+                //去掉动画
+                mActivity.overridePendingTransition(0, 0);
+            }
+        });
+
+        //歌词制作器
+        mMakeLrcSetupBGButton = mainView.findViewById(R.id.make_lrc);
+        mMakeLrcSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //如果当前正在播放歌曲，先暂停
+                int playStatus = mHPApplication.getPlayStatus();
+                if (playStatus == AudioPlayerManager.PLAYING) {
+
+                    Intent resumeIntent = new Intent(AudioBroadcastReceiver.ACTION_PAUSEMUSIC);
+                    resumeIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+                    mActivity.sendBroadcast(resumeIntent);
+
+                }
+
+                //打开制作歌词界面
+                Intent lrcMakerIntent = new Intent(mActivity,
+                        LrcMakerActivity.class);
+                startActivity(lrcMakerIntent);
+                //去掉动画
+                mActivity.overridePendingTransition(0, 0);
+            }
+        });
+
+
+        //歌词视频生成器
+        mImg2VideoSetupBGButton = mainView.findViewById(R.id.lrc_to_video);
+        mImg2VideoSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent lrcConverterIntent = new Intent(mActivity,
+                        LrcImg2VideoActivity.class);
+                startActivity(lrcConverterIntent);
+                //去掉动画
+                mActivity.overridePendingTransition(0, 0);
+            }
+        });
+
+        //定时关闭按钮
+        mTimerPowerOffSetupBGButton = mainView.findViewById(R.id.timer_power_off);
+        mTimerPowerOffSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean select = mTimerPowerOffSetupBGButton.isSelect();
+                mCurTime = 0;
+                mTimerPowerOffHandler.removeCallbacks(mTimerPowerOffRunnable);
+                if (select) {
+                    Toast.makeText(mActivity.getApplicationContext(), "你取消了定时关闭", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity.getApplicationContext(), "1小时后关闭应用", Toast.LENGTH_SHORT).show();
+                    mTimerPowerOffHandler.post(mTimerPowerOffRunnable);
+                }
+                mTimerPowerOffSetupBGButton.setSelect(!select);
+
+            }
+        });
+
+        mResultText = mainView.findViewById(R.id.iat_text);
+       //语音助手按钮
+        mVoiceHelperSetupBGButton = mainView.findViewById(R.id.voice_helper);
+        mVoiceHelperSetupBGButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         showContentView();
 
@@ -762,33 +760,11 @@ public class TabMyFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW)) {
+            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPERSHOW))
+            {
                 String showText = intent.getStringExtra("showText");
                 mResultText.setText(showText);
-            }
 
-            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_DOWNLOAD)){
-                Intent openIntent = new Intent(FragmentReceiver.ACTION_OPENDOWNLOADMUSICFRAGMENT);
-                openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                mActivity.sendBroadcast(openIntent);
-            }
-
-            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LIKE)){
-                Intent openIntent = new Intent(FragmentReceiver.ACTION_OPENLIKEMUSICFRAGMENT);
-                openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                mActivity.sendBroadcast(openIntent);
-            }
-
-            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_LOCAL)){
-                Intent openIntent = new Intent(FragmentReceiver.ACTION_OPENLOCALMUSICFRAGMENT);
-                openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                mActivity.sendBroadcast(openIntent);
-            }
-
-            if(action.equals(VoiceHelperReceiver.ACTION_VOICEHELPER_OPEN_RECENT)){
-                Intent openIntent = new Intent(FragmentReceiver.ACTION_OPENRECENTMUSICFRAGMENT);
-                openIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-                mActivity.sendBroadcast(openIntent);
             }
         }
     };

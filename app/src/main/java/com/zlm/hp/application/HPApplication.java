@@ -576,42 +576,11 @@ public class HPApplication extends MultiDexApplication {
         sendBroadcast(nextIntent);
     }
 
-    public void sendMessageToPre()
-    {
-        Intent preIntent = new Intent(AudioBroadcastReceiver.ACTION_PREMUSIC);
-        preIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        sendBroadcast(preIntent);
-    }
-
     public void sendMessageToVoiceHelper()
     {
         Intent voiceIntent = new Intent(VoiceHelperReceiver.ACTION_VOICEHELPERSTART);
         voiceIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         sendBroadcast(voiceIntent);
-    }
-
-
-    private String  currentFragmentName;
-
-    public void setCurrentFragmentName(String name)
-    {
-        this.currentFragmentName =  name ;
-    };
-
-    public String getCurrentFragmentName()
-    {
-        return currentFragmentName;
-    }
-
-    private String currentActivityName;
-
-    public  void setCurrentActivityName(String name)
-    {
-        this.currentActivityName = name ;
-    };
-
-    public String getCurrentActivityName()
-    {
-        return currentActivityName;
+        logger.e("send message to voicehelper");
     }
 }

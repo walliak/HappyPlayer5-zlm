@@ -79,12 +79,11 @@
     <string name="mode_single">&#xe62f;</string>
 
     <string name="tab_voice_helper">语音助手</string>
-    <string name="notification_voice_start">语音助手开始</string>
-    <string name="notification_voice_finish">语音助手结束</string>
     <string name="app_id">5e081d66</string>
     <string name="action_key_play">播放</string>
     <string name="action_key_pause">停</string>
     <string name="action_key_next">下一</string>
+<<<<<<< HEAD
     <string name="action_key_previous">上一</string>
     <string name="action_key_volume_up">增大音量</string>
     <string name="action_key_volume_down">减小音量</string>
@@ -98,13 +97,15 @@
     <string name="action_key_back">返回</string>
 
     <string name="text_usage">
-        \n*****************用法说明*****************\n
-        无法联网在线播放歌曲，可在本地音乐中右上角导入。\n
-        支持简单的语音使用,点击右侧悬浮按钮，说出指令即可。\n\n
-
+        使用说明\n
+        无法在线播放歌曲，可在本地音乐中右上角导入。\n
+        支持简单的语音使用,点击右侧悬浮按钮，说出指令即可。\n
         指令：\n
-        播放 开始播放 暂停 停止 下一曲 上一曲\n
-        打开本地/喜欢/下载/最近/歌词页面\n
-        返回\n
+        播放 暂停 停止 下一曲 上一曲\n
+        打开本地/喜欢/下载/最近/歌词页面 返回
     </string>
+=======
+    <string name="notification_voice_start">语音助手开始</string>
+    <string name="notification_voice_finish">语音助手结束</string>
+>>>>>>> parent of f9b06bf... 6.(1)增加了其他语音指令
 </resources>

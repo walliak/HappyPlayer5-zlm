@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -335,17 +334,5 @@ public abstract class BaseFragment extends Fragment {
 
     public void setRefreshListener(RefreshListener mRefreshListener) {
         this.mRefreshListener = mRefreshListener;
-    }
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-//            if(getClass().getSimpleName()!=null){
-//                mHPApplication.setCurrentFragmentName(getClass().getSimpleName());
-//            }
-//            logger.e(getClass().getSimpleName());
-        }
     }
 }
